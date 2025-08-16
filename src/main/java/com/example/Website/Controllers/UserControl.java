@@ -1,6 +1,8 @@
 package com.example.Website.Controllers;
 
 
+import com.example.Website.Service.LoginService;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -8,8 +10,10 @@ import org.springframework.web.bind.annotation.RequestParam;
 
 @Controller
 public class UserControl {
+    @Autowired
+    LoginService login;
 
-    @PostMapping("/login")
+    @PostMapping("/register")
     public String validateCredential(
             @RequestParam String firstname,
             @RequestParam String lastname,
@@ -17,30 +21,35 @@ public class UserControl {
             @RequestParam String dob,
             @RequestParam Long phoneNumber,
             @RequestParam String gender,
-            @RequestParam String password,
-            @RequestParam String remember
+            @RequestParam String password
     ) {
-        if (
-                firstname!=null
-                && lastname!=null
-                && email!=null
-                && dob!=null
-                && phoneNumber!=null
-                && gender!=null
-                && password!=null
-        )
-            return "login"; // loads login.html from templates/
+        try {
+            login.addUser(firstname,lastname,email,dob,phoneNumber,gender,password);
+            return "Signin/login"; // loads login.html from templates/
+        }
+        catch (Exception e){
+            return "Signin/register";
+        }
+
+
+    }
+    @PostMapping("/login")
+    public String checkLogin(String username,
+                             String password){
+        if(login.loginCheck(username,password))
+            return "Signin/hello";
         else
-            return "register";
+            return "Signin/login";
+
     }
 
     @GetMapping("/login")
     public String loginPage(){
-        return "login";
+        return "Signin/login";
     }
 
     @GetMapping("/register")
     public String registerPage() {
-        return "register"; // loads login.html from templates/
+        return "Signin/register"; // loads login.html from templates/
     }
 }
