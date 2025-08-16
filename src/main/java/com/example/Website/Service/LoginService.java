@@ -8,10 +8,23 @@ import org.springframework.stereotype.Service;
 @Service
 public class LoginService {
     @Autowired
-    UserRepo repo;
-    public boolean loginCheck(String email,String password){
-        return repo.findByEmailAndPassword(email,password).isPresent();
+    UserRepo repo;  //Object for Repository
+
+    public boolean loginCheck(String username,String password){
+        username=username.trim();  // To remove spaces
+
+        // Check it is Phone Number or email
+        try{
+            Long phNumber=Long.parseLong(username);
+            return repo.findByPhoneNumberAndPassword(phNumber,password).isPresent();
+        }
+        // If conversion of long throw exception it is email
+        catch (NumberFormatException e) {
+            return repo.findByEmailAndPassword(username, password).isPresent();
+        }
     }
+
+    // Use to add users to Database
     public void addUser(String firstname,
                          String lastname,
                          String email,
@@ -19,6 +32,6 @@ public class LoginService {
                          Long phoneNumber,
                          String gender,
                          String password){
-        repo.save(new UserDetails(firstname,lastname,email,dob,phoneNumber,gender,password));
+        repo.save(new UserDetails(firstname,lastname,email,dob,phoneNumber,gender,password)); // Save method inside UserRepo interface convert object to it's respective value for it's value
     }
 }

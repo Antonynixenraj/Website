@@ -6,6 +6,7 @@ import lombok.Data;
 
 @Data
 @Entity
+// This are the Table and Columns going to create inside Database
 public class UserDetails {
     @Id @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
