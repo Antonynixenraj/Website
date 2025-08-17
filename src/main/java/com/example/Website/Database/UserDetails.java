@@ -2,10 +2,12 @@ package com.example.Website.Database;
 
 import jakarta.persistence.*;
 import lombok.Data;
+import lombok.NoArgsConstructor;
 
 
 @Data
 @Entity
+@NoArgsConstructor
 // This are the Table and Columns going to create inside Database
 public class UserDetails {
     @Id @GeneratedValue(strategy = GenerationType.IDENTITY)

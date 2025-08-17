@@ -25,10 +25,10 @@ public class UserControl {
     {
         try {
             login.addUser(firstname,lastname,email,dob,phoneNumber,gender,password);
-            return "Signin/login"; // loads login.html from templates/
+            return "redirect:/login"; // loads login.html from templates/
         }
         catch (Exception e){
-            return "Signin/register";
+            return "redirect:/register?error=conflict";
         }
 
 
@@ -36,7 +36,7 @@ public class UserControl {
     @PostMapping("/login")
     public String checkLogin(String username, String password)
     {
-        return login.loginCheck(username,password)?"Signin/hello":"Signin/login";
+        return login.loginCheck(username,password)?"redirect:/":"redirect:/login?error=notfound";
     }
 
     @GetMapping("/login")
@@ -47,5 +47,10 @@ public class UserControl {
     @GetMapping("/register")
     public String registerPage() {
         return "Signin/register"; // loads login.html from templates/
+    }
+
+    @GetMapping("")
+    public String welcomePage(){
+        return  "Signin/hello";
     }
 }

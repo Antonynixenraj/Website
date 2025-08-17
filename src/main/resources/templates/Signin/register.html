@@ -28,8 +28,22 @@
       <div class="container">
           <div class="row align-items-center justify-content-center">
               <div class="col-md-7">
-                  <form th:action="@{/register}" method="post">
                 <h1>Register to <strong>My Website</strong></h1><br>
+                  <div th:if="${param.error} != null and ${param.error[0]} == 'conflict'"
+                       style="
+                            color: #a94442;                  /* Darker red text */
+                            background-color: #f2dede;       /* Soft pinkish-red background */
+                            padding: 15px 20px;
+                            margin-bottom: 20px;
+                            border: 1px solid #ebccd1;       /* Lighter red border */
+                            border-radius: 5px;
+                            font-weight: bold;
+                            font-size: 1.1em;
+                            box-shadow: 0 2px 4px rgba(169, 68, 66, 0.2); /* subtle shadow */">
+                      Account Already Exist
+                  </div>
+
+                  <form th:action="@{/register}" method="post">
 
                 <div class="form-group first">
                 <label for="firstname">First Name</label>
@@ -71,10 +85,13 @@
                 <label for="password">Password</label>
                 <input type="password" name="password" class="form-control" placeholder="Your Password" id="password" required>
               </div>
-              
-              <input type="submit" name="remember" value="Submit" class="btn btn-block btn-primary">
 
-            </form>
+                      <div class="d-flex mb-5 align-items-center">
+                          <span class="ml-auto"><a href="./login" class="forgot-pass">I've already account</a></span>
+                      </div>
+                      <input type="submit" value="Register" class="btn btn-block btn-primary" style="margin-bottom: 25px;">
+
+                  </form>
           </div>
         </div>
       </div>
